@@ -159,6 +159,10 @@ $registry->set('cache', $cache);
 $session = new Session();
 $registry->set('session', $session); 
 
+// RESTFull API
+$rest = new REST();
+$registry->set('_api', $rest); 
+
 
 // Front Controller
 $controller = new Front($registry);
