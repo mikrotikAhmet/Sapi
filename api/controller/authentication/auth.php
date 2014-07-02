@@ -25,15 +25,15 @@ if (!defined('DIR_APPLICATION'))
  */
 class ControllerAuthenticationAuth extends Controller{
     
-    public function user(){
+    public function authenticate(){
         
         if ($this->_api->get_request_method() != "GET") {
-            $this->_api->response('', 406);
+            $this->_api->response('Errrrrror', 406);
         }
         
        
-        $username = 'ahmet.gudenoglu@gmail.com';
-        $password = '12345';
+        $username = $this->request->get['username'];
+        $password = $this->request->get['password'];
         
         $customer_info = array();
         
@@ -41,7 +41,7 @@ class ControllerAuthenticationAuth extends Controller{
         
         if ($auth) {
             
-            $customer_info = array(
+            $customer_info[] = array(
                 'customer_id'=>$this->customer->getId(),
                 'firstname'=>$this->customer->getFirstName(),
                 'lastname'=>$this->customer->getLastName(),
@@ -51,11 +51,13 @@ class ControllerAuthenticationAuth extends Controller{
                 'newsletter'=>$this->customer->getNewsletter(),
                 'customer_group_id'=>$this->customer->getCustomerGroupId(),
                 'address_id'=>$this->customer->getAddressId(),
-                'balance'=>$this->currency->format($this->customer->getBalance(), $this->config->get('config_currency'))
+                'balance'=>$this->currency->format($this->customer->getBalance(), $this->config->get('config_currency')),
+                'status'=>'OK'
             );
             
             $this->_api->response(json_encode($customer_info), 200);
         } else {
+            $customer_info = array('status'=>'Failed');
             $this->_api->response(json_encode($customer_info), 401);
         }
     }
