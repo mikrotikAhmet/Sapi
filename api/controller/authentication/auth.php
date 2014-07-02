@@ -33,11 +33,11 @@ class ControllerAuthenticationAuth extends Controller{
         
        
         $username = 'ahmet.gudenoglu@gmail.com';
-        $password = '12344';
+        $password = '12345';
         
         $customer_info = array();
         
-        $auth = $this->customer->login($username, '1234');
+        $auth = $this->customer->login($username, $password);
         
         if ($auth) {
             
@@ -56,7 +56,7 @@ class ControllerAuthenticationAuth extends Controller{
             
             $this->_api->response(json_encode($customer_info), 200);
         } else {
-            $this->_api->response('No Auth', 503);
+            $this->_api->response(json_encode($customer_info), 401);
         }
     }
 }
