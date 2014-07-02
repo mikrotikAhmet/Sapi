@@ -163,6 +163,12 @@ $registry->set('session', $session);
 $rest = new REST();
 $registry->set('_api', $rest); 
 
+// Customer
+$registry->set('customer', new Customer($registry));
+
+// Currency
+$registry->set('currency', new Currency($registry));
+
 
 // Front Controller
 $controller = new Front($registry);

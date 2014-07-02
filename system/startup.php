@@ -122,7 +122,7 @@ $classes['engine'] = array(
     'page'
 );
 $classes['library'] = array(
-    'user',
+    'customer',
     'config',
     'db',
     'url',
@@ -138,8 +138,6 @@ $classes['library'] = array(
     'pagination',
     'image',
     'encryption',
-    'content',
-    'module',
     'creditcards',
     'rest');
 
