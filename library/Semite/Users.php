@@ -24,9 +24,27 @@
 
 class Users extends Semite{
     
-    public function __construct() {
-        parent::__construct();
+   
+    public function getUser($arg) {
         
+       // Cross validation if the request method is GET else it will return "Not Acceptable" status
+        if($this->get_request_method() != "GET"){
+                $this->response('',406);
+        }
+        
+        $user_id = $arg['id'];
+        
+        $this->loader->model('users/user');
+        
+        $result = $this->registry->get('model_users_user')->getUser($user_id);
+                        
+        if(isset($result)){
+
+
+                // If success everythig is good send header as "OK" and return list of users in JSON format
+                $this->response($this->json($result), 200);
+        }
+        $this->response('',204);	// If no records "No Content" status
     }
     
     public function getUsers($arg) {
@@ -36,14 +54,16 @@ class Users extends Semite{
                 $this->response('',406);
         }
         
-        $result = $arg;
+        $this->loader->model('users/user');
+        
+        $result = $this->registry->get('model_users_user')->getUsers();
                         
-        if($result){
+        if(isset($result)){
 
 
                 // If success everythig is good send header as "OK" and return list of users in JSON format
                 $this->response($this->json($result), 200);
-        }
+        } 
         $this->response('',204);	// If no records "No Content" status
     }
 }

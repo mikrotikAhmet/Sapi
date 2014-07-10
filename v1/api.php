@@ -39,9 +39,11 @@ require('../library/Semite/Users.php');
 class Api extends Semite {
 
     private $function;
+    
 
     public function __construct() {
         parent::__construct();    // Init parent contructor
+        
     }
 
     /*

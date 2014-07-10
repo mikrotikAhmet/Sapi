@@ -20,6 +20,20 @@
  *
  * @author ahmet
  */
+
+// DB
+define('DB_DRIVER', 'mysqli');
+define('DB_HOSTNAME', 'localhost');
+define('DB_USERNAME', 'semitepayment');
+define('DB_PASSWORD', 's3m1t3P@ym3nT');
+define('DB_DATABASE', 'semitepayment');
+define('DB_PREFIX', 'engine4_');
+
+require_once '../library/Engine/registry.php';
+require_once '../library/Engine/model.php';
+require_once '../library/Engine/db.php';
+require_once '../library/Engine/loader.php';
+
 abstract class Semite {
 
     public $_allow = array();
@@ -36,7 +50,7 @@ abstract class Semite {
     /**
      * @var string The base URL for the Stripe API.
      */
-    public static $apiBase = 'https://lapi.semitepayment.com';
+    public static $apiBase = 'https://api.semitepayment.com';
 
     /**
      * @var string|null The version of the Stripe API to use for requests.
@@ -51,6 +65,18 @@ abstract class Semite {
     const VERSION = '1.16.0';
 
     public function __construct() {
+        
+        $this->registry = new Registry();
+        
+        // Database
+        $db = new DB(DB_DRIVER, DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
+        $this->registry->set('db', $db);
+        
+        // Loader
+        $this->loader = new Loader($this->registry);
+        $this->registry->set('load', $this->loader);
+        
+        
         $this->inputs();
     }
 

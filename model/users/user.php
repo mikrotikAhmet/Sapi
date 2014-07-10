@@ -1,8 +1,5 @@
 <?php
 
-if (!defined('DIR_APPLICATION'))
-    exit('No direct script access allowed');
-
 /**
  * CodeIgniter
  *
@@ -23,16 +20,21 @@ if (!defined('DIR_APPLICATION'))
  *
  * @author ahmet
  */
-class User {
+class ModelUsersUser extends Model{
+    
+    
+    public function getUser($user_id){
+        
+        $result = $this->registry->get('db')->query("SELECT * FROM ".DB_PREFIX."user WHERE user_id = '".(int) $user_id."'");
+        
+        return $result->row;
+    }
+    
     
     public function getUsers(){
         
-        $result = array(
-            'id'=>12,
-            'Name'=>'Ahmet',
-            'Surname'=>'Gudenoglu'
-        );
+        $results = $this->registry->get('db')->query("SELECT * FROM ".DB_PREFIX."user");
         
-        return $result;
+        return $results->rows;
     }
 }
