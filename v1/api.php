@@ -96,4 +96,8 @@ class Api extends Semite {
 $api = new API;
 $api->processApi();
 
+/*
+ * Sample GET Request : http://api.semitepayment.com/v1/_requestAPI?route=semite/users/getUsers&id=12
+ */
+
 
