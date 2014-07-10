@@ -24,6 +24,11 @@
 
 class Users extends Semite{
     
+    public function __construct() {
+        parent::__construct();
+        
+    }
+    
     public function getUsers($arg) {
         
        // Cross validation if the request method is GET else it will return "Not Acceptable" status
