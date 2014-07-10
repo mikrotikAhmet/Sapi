@@ -1,4 +1,0 @@
-Sapi
-====
-
-Semite Payment API
