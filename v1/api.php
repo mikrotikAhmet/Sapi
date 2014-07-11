@@ -89,6 +89,8 @@ class Api extends Semite {
         $object = new $class();
 
         $object->$method($arg);
+        
+        
     }
 
 }
