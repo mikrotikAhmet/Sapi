@@ -1,5 +1,8 @@
 <?php
 
+if (!defined('DIR_APPLICATION'))
+    exit('No direct script access allowed');
+
 /**
  * CodeIgniter
  *
@@ -16,25 +19,11 @@
 // ------------------------------------------------------------------------
 
 /**
- * Description of Semite Class
+ * Description of rest Class
  *
  * @author ahmet
  */
-
-// DB
-define('DB_DRIVER', 'mysqli');
-define('DB_HOSTNAME', 'localhost');
-define('DB_USERNAME', 'semitepayment');
-define('DB_PASSWORD', 's3m1t3P@ym3nT');
-define('DB_DATABASE', 'semitepayment');
-define('DB_PREFIX', 'engine4_');
-
-require_once '../library/Engine/registry.php';
-require_once '../library/Engine/model.php';
-require_once '../library/Engine/db.php';
-require_once '../library/Engine/loader.php';
-
-abstract class Semite {
+class REST {
 
     public $_allow = array();
     public $_content_type = "application/json";
@@ -42,41 +31,7 @@ abstract class Semite {
     private $_method = "";
     private $_code = 200;
 
-    /**
-     * @var string The Stripe API key to be used for requests.
-     */
-    public static $apiKey;
-
-    /**
-     * @var string The base URL for the Stripe API.
-     */
-    public static $apiBase = 'https://api.semitepayment.com';
-
-    /**
-     * @var string|null The version of the Stripe API to use for requests.
-     */
-    public static $apiVersion = null;
-
-    /**
-     * @var boolean Defaults to true.
-     */
-    public static $verifySslCerts = true;
-
-    const VERSION = '1.16.0';
-
     public function __construct() {
-        
-        $this->registry = new Registry();
-        
-        // Database
-        $db = new DB(DB_DRIVER, DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
-        $this->registry->set('db', $db);
-        
-        // Loader
-        $this->loader = new Loader($this->registry);
-        $this->registry->set('load', $this->loader);
-        
-        
         $this->inputs();
     }
 
@@ -179,68 +134,6 @@ abstract class Semite {
     private function set_headers() {
         header("HTTP/1.1 " . $this->_code . " " . $this->get_status_message());
         header("Content-Type:" . $this->_content_type);
-    }
-
-    /**
-     * @return string The API Base end-point used for requests.
-     */
-    public static function getApiBase() {
-        return self::$apiBase;
-    }
-
-    /**
-     * @return string The API key used for requests.
-     */
-    public static function getApiKey() {
-        return self::$apiKey;
-    }
-
-    /**
-     * Sets the API key to be used for requests.
-     *
-     * @param string $apiKey
-     */
-    public static function setApiKey($apiKey) {
-        self::$apiKey = $apiKey;
-    }
-
-    /**
-     * @return string The API version used for requests. null if we're using the
-     *    latest version.
-     */
-    public static function getApiVersion() {
-        return self::$apiVersion;
-    }
-
-    /**
-     * @param string $apiVersion The API version to use for requests.
-     */
-    public static function setApiVersion($apiVersion) {
-        self::$apiVersion = $apiVersion;
-    }
-
-    /**
-     * @return boolean
-     */
-    public static function getVerifySslCerts() {
-        return self::$verifySslCerts;
-    }
-
-    /**
-     * @param boolean $verify
-     */
-    public static function setVerifySslCerts($verify) {
-        self::$verifySslCerts = $verify;
-    }
-
-    /*
-     * 	Encode array into JSON
-     */
-
-    public function json($data) {
-        if (is_array($data)) {
-            return json_encode($data);
-        }
     }
 
 }

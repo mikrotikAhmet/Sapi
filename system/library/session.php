@@ -1,5 +1,8 @@
 <?php
 
+if (!defined('DIR_APPLICATION'))
+    exit('No direct script access allowed');
+
 /**
  * CodeIgniter
  *
@@ -33,24 +36,29 @@
  */
 
 /*
- * Semite LLC model Class
+ * Semite LLC session Class
  * Date : Jun 14, 2014
  */
 
-abstract class Model {
+class Session {
 
-    protected $registry;
+    public $data = array();
 
-    public function __construct($registry) {
-        $this->registry = $registry;
+    public function __construct() {
+        if (!session_id()) {
+            ini_set('session.use_only_cookies', 'On');
+            ini_set('session.use_trans_sid', 'Off');
+            ini_set('session.cookie_httponly', 'On');
+
+            session_set_cookie_params(0, '/');
+            session_start();
+        }
+
+        $this->data = & $_SESSION;
     }
 
-    public function __get($key) {
-        return $this->registry->get($key);
-    }
-
-    public function __set($key, $value) {
-        $this->registry->set($key, $value);
+    function getId() {
+        return session_id();
     }
 
 }

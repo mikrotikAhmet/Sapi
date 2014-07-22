@@ -1,5 +1,8 @@
 <?php
 
+if (!defined('DIR_APPLICATION'))
+    exit('No direct script access allowed');
+
 /**
  * CodeIgniter
  *
@@ -16,25 +19,25 @@
 // ------------------------------------------------------------------------
 
 /**
- * Description of user Class
+ * Description of autoloader Class
  *
  * @author ahmet
  */
-class ModelUsersUser extends Model{
-    
-    
-    public function getUser($user_id){
-        
-        $result = $this->registry->get('db')->query("SELECT * FROM ".DB_PREFIX."user WHERE user_id = '".(int) $user_id."'");
-        
-        return $result->row;
+class Autoloader {
+
+    public function _loadFromArray($class = array()) {
+
+        foreach ($class as $route=>$file){
+            
+            foreach ($file as $object){
+                require_once (DIR_SYSTEM . $route . DS . $object .'.php');
+            }
+        }
     }
     
-    
-    public function getUsers(){
+    public function _getDeclaredClasses(){
         
-        $results = $this->registry->get('db')->query("SELECT * FROM ".DB_PREFIX."user");
-        
-        return $results->rows;
+        semite_var_dump(get_declared_classes());
     }
+
 }

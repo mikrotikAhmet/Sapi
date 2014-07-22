@@ -1,6 +1,7 @@
 <?php
 
-
+if (!defined('DIR_APPLICATION'))
+    exit('No direct script access allowed');
 
 /**
  * CodeIgniter
@@ -35,42 +36,26 @@
  */
 
 /*
- * Semite LLC db Class
- * Date : Jun 14, 2014
+ * Semite LLC encryption Class
+ * Date : Jun 16, 2014
  */
 
-class DB {
+final class Encryption {
 
-    private $driver;
+    private $key;
+    private $iv;
 
-    public function __construct($driver, $hostname, $username, $password, $database) {
-        $file = $_SERVER['DOCUMENT_ROOT']. '/library/Database/' . $driver . '.php';
-
-        if (file_exists($file)) {
-            require_once($file);
-
-            $class = 'DB' . $driver;
-
-            $this->driver = new $class($hostname, $username, $password, $database);
-        } else {
-            exit('Error: Could not load database driver type ' . $driver . '!');
-        }
+    public function __construct($key) {
+        $this->key = hash('sha256', $key, true);
+        $this->iv = mcrypt_create_iv(32, MCRYPT_RAND);
     }
 
-    public function query($sql) {
-        return $this->driver->query($sql);
+    public function encrypt($value) {
+        return strtr(base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, $this->key, $value, MCRYPT_MODE_ECB, $this->iv)), '+/=', '-_,');
     }
 
-    public function escape($value) {
-        return $this->driver->escape($value);
-    }
-
-    public function countAffected() {
-        return $this->driver->countAffected();
-    }
-
-    public function getLastId() {
-        return $this->driver->getLastId();
+    public function decrypt($value) {
+        return trim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, $this->key, base64_decode(strtr($value, '-_,', '+/=')), MCRYPT_MODE_ECB, $this->iv));
     }
 
 }

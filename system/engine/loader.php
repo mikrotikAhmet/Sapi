@@ -1,5 +1,8 @@
 <?php
 
+if (!defined('DIR_APPLICATION'))
+    exit('No direct script access allowed');
+
 /**
  * CodeIgniter
  *
@@ -15,28 +18,11 @@
  */
 // ------------------------------------------------------------------------
 
-/*
- * Copyright (C) 2014 ahmet
+/**
+ * Description of loader Class
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * @author ahmet
  */
-
-/*
- * Semite LLC loader Class
- * Date : Jun 14, 2014
- */
-
 final class Loader {
 
     protected $registry;
@@ -63,7 +49,7 @@ final class Loader {
             exit();
         }
     }
-    
+
     public function helper($helper) {
         $file = DIR_SYSTEM . 'helper/' . $helper . '.php';
 
@@ -76,7 +62,7 @@ final class Loader {
     }
 
     public function model($model) {
-        $file = $_SERVER['DOCUMENT_ROOT'] . '/model/' . $model . '.php';
+        $file = DIR_APPLICATION . 'model/' . $model . '.php';
         $class = 'Model' . preg_replace('/[^a-zA-Z0-9]/', '', $model);
 
         if (file_exists($file)) {
@@ -89,9 +75,26 @@ final class Loader {
         }
     }
 
+    public function database($driver, $hostname, $username, $password, $database) {
+        $file = DIR_SYSTEM . 'database/' . $driver . '.php';
+        $class = 'Database' . preg_replace('/[^a-zA-Z0-9]/', '', $driver);
+
+        if (file_exists($file)) {
+            include_once($file);
+
+            $this->registry->set(str_replace('/', '_', $driver), new $class($hostname, $username, $password, $database));
+        } else {
+            trigger_error('Error: Could not load database ' . $driver . '!');
+            exit();
+        }
+    }
+
     public function config($config) {
         $this->config->load($config);
     }
 
-}
+    public function language($language) {
+        return $this->language->load($language);
+    }
 
+}

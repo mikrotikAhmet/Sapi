@@ -18,7 +18,7 @@
 
 /**
  * @package     EGC Services Ltd
- * @version     $Id: index.php Jul 10, 2014 ahmet
+ * @version     $Id: index.php Jul 17, 2014 ahmet
  * @copyright   Copyright (c) 2014 EGC Services Ltd .
  * @license     http://www.egamingc.com/license/
  */
@@ -28,5 +28,13 @@
  * @author ahmet
  */
 
-if (!defined('DIR_APPLICATION'))
-    exit('No direct API access allowed');
+// Constants
+define('_ENGINE_R_BASE', dirname($_SERVER['SCRIPT_NAME']));
+define('_ENGINE_R_FILE', $_SERVER['SCRIPT_NAME']);
+define('_ENGINE_R_REL', 'app');
+define('_ENGINE_R_TARG', 'index.php');
+
+// Main
+include dirname(__FILE__) . DIRECTORY_SEPARATOR
+  . _ENGINE_R_REL . DIRECTORY_SEPARATOR
+  . _ENGINE_R_TARG;

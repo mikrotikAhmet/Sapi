@@ -1,5 +1,7 @@
 <?php
 
+if (!defined('DIR_APPLICATION'))
+    exit('No direct script access allowed');
 
 /**
  * CodeIgniter
@@ -34,25 +36,20 @@
  */
 
 /*
- * Semite LLC registry Class
+ * Semite LLC debug Class
  * Date : Jun 14, 2014
  */
 
-final class Registry {
+function semite_var_dump($data) {
 
-    private $data = array();
+    print "<pre>";
+        var_dump($data);
+    print "</pre>";
+}
 
-    public function get($key) {
-        return (isset($this->data[$key]) ? $this->data[$key] : null);
-    }
-
-    public function set($key, $value) {
-        $this->data[$key] = $value;
-    }
-
-    public function has($key) {
-        return isset($this->data[$key]);
-    }
-
+function semite_print_r($data) {
+    print "<pre>";
+        print_r($data);
+    print "</pre>";
 }
 
