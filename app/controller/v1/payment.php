@@ -29,9 +29,7 @@ class ControllerV1Payment extends Controller {
         
         if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
-            $results = array(
-                'data'=>$_POST
-            );
+            $results = $this->request->post;
 
             if ($results) {
                 $this->_api->processApi($results, 200);
