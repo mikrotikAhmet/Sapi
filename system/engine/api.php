@@ -24,10 +24,23 @@ if (!defined('DIR_APPLICATION'))
  * @author ahmet
  */
 class Api extends REST {
+    
+    
+    
+    public function __construct($registry) {
+        
+        $this->db = $registry->get('db');
+    }
 
     public function processApi($data, $status) {
-
-        $key = '1';
+        
+        $total_key = $this->db->query('SELECT count(*) as total FROM '.DB_PREFIX."customer_account WHERE test_secret_key = '".$this->db->escape($data['M_SK'])."'");
+        
+        if ($total_key->row['total']){
+            $key = true;
+        } else {
+            $key = false;
+        }
 
         if (!$key) {
             

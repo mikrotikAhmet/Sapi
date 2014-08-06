@@ -89,7 +89,7 @@ $response->addHeader('Content-Type: text/html; charset=utf-8');
 $registry->set('response', $response); 
 
 // RestFull API Response
-$api = new Api();
+$api = new Api($registry);
 $registry->set('_api', $api);
 
 // Cache
