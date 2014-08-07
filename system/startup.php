@@ -110,7 +110,8 @@ $auto_loader = new Autoloader();
 $classes['helper'] = array(
     'debug',
     'utf8',
-    'json'
+    'json',
+    'creditcard'
 );
 $classes['engine'] = array(
     'rest',

@@ -29,10 +29,16 @@ class ControllerV1Payment extends Controller {
         
         if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
-            $results = $this->request->post;
-
-            if ($results) {
-                $this->_api->processApi($results, 200);
+            $data = $this->request->post;
+            
+            $this->load->model('account/payment');
+            
+            $result = $this->model_account_payment->pay($data);
+                        
+            $result['M_SK'] = $data['M_SK'];
+            
+            if ($result) {
+                $this->_api->processApi($result, 200);
             } else {
                 $this->_api->processApi('', 204);
             }
