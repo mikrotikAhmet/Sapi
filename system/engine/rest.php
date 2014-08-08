@@ -48,6 +48,7 @@ class REST {
 
     private function get_status_message() {
         $status = array(
+            90 => 'Success',
             100 => 'Continue',
             101 => 'Switching Protocols',
             200 => 'OK',

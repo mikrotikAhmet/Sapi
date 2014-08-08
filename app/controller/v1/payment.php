@@ -26,21 +26,19 @@ if (!defined('DIR_APPLICATION'))
 class ControllerV1Payment extends Controller {
 
     public function pay() {
-        
-        if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+               
+        $this->load->model('account/payment');
 
-            $data = $this->request->post;
-            
-            $this->load->model('account/payment');
-            
-            $result = $this->model_account_payment->pay($data);
-                        
-            $result['M_SK'] = $data['M_SK'];
-            
-            if ($result) {
-                $this->_api->processApi($result, 200);
+         if (($this->request->server['REQUEST_METHOD'] == 'POST')) {
+             
+             $data = $this->request->post;
+             
+            $results = $this->model_account_payment->pay($data);
+
+            if ($results){
+                $this->_api->processApi($results, 90);
             } else {
-                $this->_api->processApi('', 204);
+                $this->_api->processApi('',406 );
             }
         } else {
             $this->_api->processApi('', 400);

@@ -27,7 +27,7 @@ class ModelAccountPayment extends Model{
     
     public function pay($data){
         
-        $query = $this->db->query("SELECT * FROM ".DB_PREFIX."customer_account WHERE v_card_number = '".  FormatCreditCard($data['cc_number'])."'");
+        $query = $this->db->query("SELECT * FROM ".DB_PREFIX."customer_account WHERE v_card_number = '".  FormatCreditCard($data['ACCT'])."'");
         
         return $query->row;
     }

@@ -34,24 +34,24 @@ class Api extends REST {
 
     public function processApi($data, $status) {
         
-        $total_key = $this->db->query('SELECT count(*) as total FROM '.DB_PREFIX."customer_account WHERE test_secret_key = '".$this->db->escape($data['M_SK'])."'");
-        
-        if ($total_key->row['total']){
-            $key = true;
-        } else {
-            $key = false;
-        }
-
-        if (!$key) {
-            
-            $status = 401;
-            
-            $auth['code'] = $status;
-            $auth['stat'] = $this->getStatusMessage($status);
-
-            $this->response($this->json($auth), $status);
-        }
-        if (isset($data) && !empty($data) && $key) {
+//        $total_key = $this->db->query('SELECT count(*) as total FROM '.DB_PREFIX."customer_account WHERE test_secret_key = '".$this->db->escape($data['M_SK'])."'");
+//        
+//        if ($total_key->row['total']){
+//            $key = true;
+//        } else {
+//            $key = false;
+//        }
+//
+//        if (!$key) {
+//            
+//            $status = 401;
+//            
+//            $auth['code'] = $status;
+//            $auth['stat'] = $this->getStatusMessage($status);
+//
+//            $this->response($this->json($auth), $status);
+//        }
+        if (isset($data) && !empty($data)) {
             
             $data['code'] = $status;
             $data['stat'] = $this->getStatusMessage($status);
@@ -70,6 +70,7 @@ class Api extends REST {
     public function getStatusMessage($code) {
 
         $status = array(
+            90 => 'Success',
             100 => 'Continue',
             101 => 'Switching Protocols',
             200 => 'OK',
