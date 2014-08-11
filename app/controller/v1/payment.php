@@ -38,9 +38,12 @@ class ControllerV1Payment extends Controller {
             
             $this->load->model('account/payment');
             
-          $this->model_account_payment->makeTransaction($this->request->post,$transaction_id);
-            
-                $this->_api->processApi('', 90);
+          $status = $this->model_account_payment->makeTransaction($this->request->post,$transaction_id);
+                if ($status['status'] == 'Test'){
+                    $this->_api->processApi($status, 200);
+                } else {
+                    $this->_api->processApi('', 90);
+                }
         } else {
             
             $this->_api->processApi('', 400);

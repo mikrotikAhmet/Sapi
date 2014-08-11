@@ -74,6 +74,20 @@ $db = new DB(DB_DRIVER, DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
 $registry->set('db', $db);
 
 // Application Settings
+$application_query = $db->query("SELECT * FROM " . DB_PREFIX . "setting WHERE application_id = '0' OR application_id = '" . (int)$config->get('config_application_id') . "' ORDER BY application_id ASC");
+
+foreach ($application_query->rows as $setting) {
+	if (!$setting['serialized']) {
+		$config->set($setting['key'], $setting['value']);
+	} else {
+		$config->set($setting['key'], unserialize($setting['value']));
+	}
+}
+
+if (!$application_query->num_rows) {
+	$config->set('config_url', HTTP_SERVER);
+	$config->set('config_ssl', HTTPS_SERVER);	
+}
 
 // Url
 $url = new Url(HTTP_SERVER, $config->get('config_secure') ? HTTPS_SERVER : HTTP_SERVER);	
