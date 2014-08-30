@@ -37,11 +37,11 @@ class ModelAccountPayment extends Model{
             $capture = $this->config->get('config_transaction_status_id');
         }
         
-        if ($merchant['approved']){
+//        if ($merchant['approved']){
             $mode = true;
-        } else {
-            $mode = false;
-        }
+//        } else {
+//            $mode = false;
+//        }
         
         if($mode){
         
@@ -79,13 +79,13 @@ class ModelAccountPayment extends Model{
     
     public function checkKey($merchant,$key){
         
-        if ($merchant['approved']){
-            $type = 'live';
-        } else {
-            $type = 'test';
-        }
+//        if ($merchant['approved']){
+//            $type = 'live';
+//        } else {
+//            $type = 'test';
+//        }
         
-        $query = $this->db->query("SELECT COUNT(*) AS total FROM ".DB_PREFIX."customer_account WHERE ".strtolower($type)."_public_key = '".  $this->db->escape($key)."'");
+        $query = $this->db->query("SELECT COUNT(*) AS total FROM ".DB_PREFIX."customer_account WHERE live_public_key = '".  $this->db->escape($key)."'");
         
         return $query->row['total'];
     }
