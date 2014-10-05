@@ -28,40 +28,46 @@ class Api extends REST {
     
     
     public function __construct($registry) {
-        
         $this->db = $registry->get('db');
+        $this->load = $registry->get('load');
+
+        $this->load->model('account/customer');
+        
+        $this->customer = new ModelAccountCustomer($registry);
     }
 
     public function processApi($data, $status) {
         
-//        $total_key = $this->db->query('SELECT count(*) as total FROM '.DB_PREFIX."customer_account WHERE test_secret_key = '".$this->db->escape($data['M_SK'])."'");
-//        
-//        if ($total_key->row['total']){
-//            $key = true;
-//        } else {
-//            $key = false;
-//        }
-//
-//        if (!$key) {
-//            
-//            $status = 401;
-//            
-//            $auth['code'] = $status;
-//            $auth['stat'] = $this->getStatusMessage($status);
-//
-//            $this->response($this->json($auth), $status);
-//        }
+        $check_customer = $this->customer->checkCustomer($data['customer_id'],$data['merchant_id'],$data['api_key']);
+        
+        unset($data['merchant_id'],$data['api_key'],$data['customer_id'],$data['route']);
+        
+        if ($check_customer){
+            $key = true;
+        } else {
+            $key = false;
+        }
+
+        if (!$key) {
+            
+            $status = 401;
+            
+            $auth['code'] = $status;
+            $auth['status'] = $this->getStatusMessage($status);
+
+            $this->response($this->json($auth), $status);
+        }
         if (isset($data) && !empty($data)) {
             
             $data['code'] = $status;
-            $data['stat'] = $this->getStatusMessage($status);
+            $data['status'] = $this->getStatusMessage($status);
             
             $this->response($this->json($data), $status);
             
         } else {
             
             $error['code'] = $status;
-            $error['stat'] = $this->getStatusMessage($status);
+            $error['status'] = $this->getStatusMessage($status);
 
             $this->response($this->json($error), $status);
         }
@@ -112,13 +118,8 @@ class Api extends REST {
             503 => 'Service Unavailable',
             504 => 'Gateway Timeout',
             505 => 'HTTP Version Not Supported',
-            900 => 'Card Number Error',
-            901 => 'CVV2 Error',
-            902 => 'Expiry Date Error',
-            903 => 'Key Signature Error',
-            904 => 'We could not find Merchant in our system',
-            905 => 'Insufficient Balance',
-            906 => 'Card Expire Date Error',
+            506 => 'Merchant ID not found',
+            507 => 'API key is invalid',
             );
         return ($status[$code]) ? $status[$code] : $status[500];
     }

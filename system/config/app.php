@@ -51,7 +51,7 @@ define('DIR_API', '/var/www/html/api_semitepayment.com/app/');
 // DB
 define('DB_DRIVER', 'mysqli');
 define('DB_HOSTNAME', 'localhost');
-define('DB_USERNAME', 'semitepayment');
-define('DB_PASSWORD', 's3m1t3P@ym3nT');
-define('DB_DATABASE', 'semitepayment');
+define('DB_USERNAME', 'root');
+define('DB_PASSWORD', 'ahm671et');
+define('DB_DATABASE', 'opengateway');
 define('DB_PREFIX', 'engine4_');

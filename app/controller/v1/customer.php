@@ -23,36 +23,71 @@ if (!defined('DIR_APPLICATION'))
  *
  * @author ahmet
  */
+
 class ControllerV1Customer extends Controller {
-
-    public function getAll() {
-
-        $this->load->model('test/test');
-
-        $results = $this->model_test_test->getList();
-
-        if ($results) {
-            $this->_api->processApi($results, 200);
-        } else {
-            $this->_api->processApi('', 204);
+    
+    private $api_data = array();
+    
+    public function getLastTransactions(){
+        $this->load->model('account/customer');
+        
+        $params = $this->request->get;
+        
+        if (($this->request->server['REQUEST_METHOD'] == 'GET')) {
+            
+            $transactions = $this->model_account_customer->getLastTransactions($params['customer_id']);
+            
+            $params['data'] = $transactions;
+            
+            $this->_api->processApi(($params), 200);
         }
     }
-
-    public function getCustomer() {
-
-        $this->load->model('test/test');
-
-        if (isset($this->request->get['id'])) {
-            $result = $this->model_test_test->getSingle($this->request->get['id']);
-
-            if ($result) {
-                $this->_api->processApi($result, 200);
-            } else {
-                $this->_api->processApi('', 404);
-            }
-        } else {
-            $this->_api->processApi('', 400);
+    
+    public function getAllTransactions(){
+        $this->load->model('account/customer');
+        
+        $params = $this->request->get;
+        
+        if (($this->request->server['REQUEST_METHOD'] == 'GET')) {
+            
+            $transactions = $this->model_account_customer->getAllTransactions($params['customer_id']);
+            
+            $params['data'] = $transactions;
+            
+            $this->_api->processApi(($params), 200);
         }
     }
+    
+    public function getCards(){
+        
+        $this->load->model('account/customer');
+        
+        $params = $this->request->get;
+        
+        if (($this->request->server['REQUEST_METHOD'] == 'GET')) {
+            
+            $cards = $this->model_account_customer->getCards($params['customer_id']);
+            
+            $params['data'] = $cards;
+            
+            $this->_api->processApi(($params), 200);
+        }
+        
+    }
 
+    public function getBalance() {
+        
+        $this->load->model('account/customer');
+
+        $params = $this->request->get;
+        
+        if (($this->request->server['REQUEST_METHOD'] == 'GET')) {
+            
+            $balance = $this->model_account_customer->getBalance($params['customer_id']);
+            
+            $params['data'] = $balance;
+            
+            $this->_api->processApi(($params), 200);
+        }
+    }
 }
