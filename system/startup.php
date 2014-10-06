@@ -134,7 +134,8 @@ $classes['library'] = array(
     'encryption',
     'cache',
     'currency',
-    'language'
+    'language',
+    'mail'
 );
 
 if ((isset($classes)) && is_array($classes)) {
