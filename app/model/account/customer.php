@@ -57,7 +57,7 @@ class ModelAccountCustomer extends Model{
     }
     
     public function getAllTransactions($customer_id){
-        $sql = "SELECT * FROM ".DB_PREFIX."customer_transaction WHERE customer_id = '".(int) $customer_id."' ORDER BY date_added DESC";
+        $sql = "SELECT *  FROM ".DB_PREFIX."customer_transaction ct LEFT JOIN ".DB_PREFIX."transaction_order to ON(ct.transaction_order_id = to.transaction_order_id) WHERE ct.customer_id = '".(int) $customer_id."' ORDER BY ct.date_added DESC";
         
         $transactions = $this->db->query($sql);
         
@@ -73,7 +73,7 @@ class ModelAccountCustomer extends Model{
     }
     
     public function getLastTransactions($customer_id){
-        $sql = "SELECT * FROM ".DB_PREFIX."customer_transaction WHERE customer_id = '".(int) $customer_id."' ORDER BY date_added DESC LIMIT 0,10";
+        $sql = "SELECT * FROM ".DB_PREFIX."customer_transaction ct LEFT JOIN ".DB_PREFIX."transaction_order `to` ON(ct.transaction_order_id = `to`.transaction_order_id) WHERE ct.customer_id = '".(int) $customer_id."' ORDER BY ct.date_added DESC LIMIT 0,10";
         
         $transactions = $this->db->query($sql);
         
@@ -85,6 +85,18 @@ class ModelAccountCustomer extends Model{
         $balance = $this->db->query("SELECT SUM(amount) AS balance FROM ".DB_PREFIX."customer_transaction WHERE customer_id = '".(int) $cutomer_id."'");
         
         return $balance->row;
+    }
+    
+    public function getCardCommission($card_id){
+        $result = $this->db->query("SELECT (c.commission) AS commission FROM ".DB_PREFIX."customer_card cd LEFT JOIN ".DB_PREFIX."card c ON(cd.`type` = c.shortname) WHERE cd.customer_card_id = '".(int) $card_id."'");
+        
+        return $result->row['commission'];
+    }
+    
+    public function getCustomerCard($customer_card_id){
+        $result = $this->db->query("SELECT * FROM ".DB_PREFIX."customer_card WHERE customer_card_id = '".(int) $customer_card_id."'");
+        
+        return $result->row;
     }
 }
 

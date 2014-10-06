@@ -111,7 +111,8 @@ $classes['helper'] = array(
     'debug',
     'utf8',
     'json',
-    'creditcard'
+    'creditcard',
+    'key_generator'
 );
 $classes['engine'] = array(
     'rest',
@@ -131,7 +132,9 @@ $classes['library'] = array(
     'response',
     'session',
     'encryption',
-    'cache'
+    'cache',
+    'currency',
+    'language'
 );
 
 if ((isset($classes)) && is_array($classes)) {

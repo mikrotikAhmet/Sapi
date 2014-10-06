@@ -41,6 +41,7 @@ define('DIR_APPLICATION', '/var/www/html/api_semitepayment.com/app/');
 define('DIR_SYSTEM', '/var/www/html/api_semitepayment.com/system/');
 define('DIR_LIBRARY', '/var/www/html/api_semitepayment.com/system/library/');
 define('DIR_DATABASE', '/var/www/html/api_semitepayment.com/system/database/');
+define('DIR_LANGUAGE', '/var/www/html/api_semitepayment.com/app/language/');
 define('DIR_CONFIG', '/var/www/html/api_semitepayment.com/system/library/config/');
 define('DIR_IMAGE', '/var/www/html/api_semitepayment.com/image/');
 define('DIR_CACHE', '/var/www/html/api_semitepayment.com/system/cache/');

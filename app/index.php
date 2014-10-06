@@ -89,6 +89,22 @@ if (!$application_query->num_rows) {
 	$config->set('config_ssl', HTTPS_SERVER);	
 }
 
+// Language
+$languages = array();
+
+$query = $db->query("SELECT * FROM `" . DB_PREFIX . "language`"); 
+
+foreach ($query->rows as $result) {
+	$languages[$result['code']] = $result;
+}
+
+$config->set('config_language_id', $languages[$config->get('config_admin_language')]['language_id']);
+
+// Language	
+$language = new Language($languages[$config->get('config_admin_language')]['directory']);
+$language->load($languages[$config->get('config_admin_language')]['filename']);	
+$registry->set('language', $language);
+
 // Url
 $url = new Url(HTTP_SERVER, $config->get('config_secure') ? HTTPS_SERVER : HTTP_SERVER);	
 $registry->set('url', $url);
@@ -105,6 +121,14 @@ $registry->set('response', $response);
 // RestFull API Response
 $api = new Api($registry);
 $registry->set('_api', $api);
+
+// Currency
+$currency = new Currency($registry);
+$registry->set('currency', $currency);
+
+// Key Generator
+$key_generator = new KeyGenerator();
+$registry->set('_key', $key_generator);
 
 // Cache
 $cache = new Cache();
