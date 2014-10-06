@@ -112,7 +112,8 @@ $classes['helper'] = array(
     'utf8',
     'json',
     'creditcard',
-    'key_generator'
+    'key_generator',
+    'commission'
 );
 $classes['engine'] = array(
     'rest',

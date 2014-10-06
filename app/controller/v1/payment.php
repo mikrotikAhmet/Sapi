@@ -76,6 +76,11 @@ class ControllerV1Payment extends Controller {
             
             // Get Card Commission
             $params['commission'] = $this->model_account_customer->getCardCommission($this->request->post['card']);
+            
+            $commisionIn = $this->request->post['amount'] / 100 * $params['commission'];
+        
+            $params['total'] = $this->request->post['amount'] + $commisionIn;
+            $params['comm_net'] = $commisionIn;
 
             $this->model_account_payment->makeDeposit($params);
             

@@ -126,6 +126,10 @@ $registry->set('_api', $api);
 $currency = new Currency($registry);
 $registry->set('currency', $currency);
 
+// Commission
+$commission = new Commission($registry);
+$registry->set('commission', $commission);
+
 // Key Generator
 $key_generator = new KeyGenerator();
 $registry->set('_key', $key_generator);
