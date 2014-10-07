@@ -56,6 +56,12 @@ class ModelAccountCustomer extends Model{
         
     }
     
+    public function getCustomer($customer_id){
+        $result = $this->db->query("SELECT * FROM ".DB_PREFIX."customer WHERE customer_id = '".(int) $customer_id."'");
+        
+        return $result->row;
+    }
+    
     public function getAllTransactions($customer_id){
         $sql = "SELECT *  FROM ".DB_PREFIX."customer_transaction ct LEFT JOIN ".DB_PREFIX."transaction_order to ON(ct.transaction_order_id = to.transaction_order_id) WHERE ct.customer_id = '".(int) $customer_id."' ORDER BY ct.date_added DESC";
         
@@ -97,6 +103,11 @@ class ModelAccountCustomer extends Model{
         $result = $this->db->query("SELECT * FROM ".DB_PREFIX."customer_card WHERE customer_card_id = '".(int) $customer_card_id."'");
         
         return $result->row;
+    }
+    
+    public function addCard($data = array()){
+        
+        $this->db->query("INSERT INTO ".DB_PREFIX."customer_card SET cardholder = '".$this->db->escape($data['cardholder'])."', card_number = '".$this->db->escape($data['substring'])."', hex = '".$this->db->escape($data['hex'])."', expiry_date = '".$this->db->escape($data['expiryDate'])."', cvv = '".(int) $data['cvv']."', `type` = '".$this->db->escape($data['type'])."', customer_id = '".(int) $data['reference']."'");
     }
 }
 

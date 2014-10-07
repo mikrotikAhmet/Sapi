@@ -130,6 +130,9 @@ $registry->set('currency', $currency);
 $commission = new Commission($registry);
 $registry->set('commission', $commission);
 
+// Encryption
+$registry->set('encryption', new Encryption($config->get('config_encryption')));
+
 // Credit Card Validator
 $creditcard = new CreditCardValidator();
 $registry->set('_card', $creditcard);

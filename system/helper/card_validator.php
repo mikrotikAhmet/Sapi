@@ -385,5 +385,11 @@ class CreditCardValidator {
 		return isset($this->arrCardTypes[$strCardShortName]['name']) ? $this->arrCardTypes[$strCardShortName]['name'] : '';
 		
 	} # END METHOD GetCardName()
+        
+                public function getCardTypes($type){
+                    
+                    return $this->arrCardTypes[$type];
+                    
+                }
 	
 } # END CLASS CreditCardValidator()

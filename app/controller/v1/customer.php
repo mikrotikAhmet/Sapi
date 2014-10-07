@@ -79,20 +79,30 @@ class ControllerV1Customer extends Controller {
 
     public function addCard() {
 
+        $this->load->model('account/customer');
+
         $params = $this->request->get;
 
         if (($this->request->server['REQUEST_METHOD'] == 'POST')) {
 
-            $this->_card->Validate($params['card_number']);
+            $this->_card->Validate($this->request->post['card_number']);
 
             $card_info = $this->_card->GetCardInfo();
 
             if ($card_info['status'] == 'invalid') {
-                
+
                 $this->_api->processApi($params, 203);
-                
             } else {
 
+                $customer_info = $this->model_account_customer->getCustomer($params['customer_id']);
+
+                $card_info['cardholder'] = $customer_info['firstname'] . ' ' . strtoupper($customer_info['lastname']);
+                $card_info['cvv'] = $this->request->post['cvv'];
+                $card_info['expiryDate'] = $this->request->post['year'] . '-' . $this->request->post['month'];
+                $card_info['reference'] = $params['customer_id'];
+                $card_info['hex'] = $this->encryption->encrypt($this->request->post['card_number']);
+
+                $this->model_account_customer->addCard($card_info);
                 $this->_api->processApi($params, 200);
             }
         } else {
