@@ -130,6 +130,10 @@ $registry->set('currency', $currency);
 $commission = new Commission($registry);
 $registry->set('commission', $commission);
 
+// Credit Card Validator
+$creditcard = new CreditCardValidator();
+$registry->set('_card', $creditcard);
+
 // Key Generator
 $key_generator = new KeyGenerator();
 $registry->set('_key', $key_generator);

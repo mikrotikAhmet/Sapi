@@ -27,7 +27,7 @@ class ControllerV1Payment extends Controller {
 
     private $error = array();
 
-    public function pay() {
+    public function processPayment() {
         
         $this->load->model('account/customer');
         $this->load->model('account/payment');
@@ -100,7 +100,11 @@ class ControllerV1Payment extends Controller {
             $mail->send();
 
             $this->_api->processApi($params, 202);
+        } else {
+            $this->_api->processApi($params, 405);
         }
     }
+    
+        public function processRefund(){}
 
 }

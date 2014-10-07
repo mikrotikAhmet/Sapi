@@ -113,7 +113,8 @@ $classes['helper'] = array(
     'json',
     'creditcard',
     'key_generator',
-    'commission'
+    'commission',
+    'card_validator'
 );
 $classes['engine'] = array(
     'rest',
