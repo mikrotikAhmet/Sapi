@@ -43,6 +43,11 @@ class ControllerV1Payment extends Controller {
             $params['currency_id'] = $this->currency->getId();
             $params['currency_code'] = $this->currency->getCode();
             $params['currency_value'] = $this->currency->getValue($this->currency->getCode());
+            
+            $customer_info = $this->model_account_customer->getCustomer($params['customer_id']);
+            
+            $params['conversion_value'] = $this->currency->getValueById($customer_info['currency_id']);
+            
             $params['ip'] = $this->request->server['REMOTE_ADDR'];
 
             if (!empty($this->request->server['HTTP_X_FORWARDED_FOR'])) {
