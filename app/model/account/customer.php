@@ -63,7 +63,7 @@ class ModelAccountCustomer extends Model{
     }
     
     public function getAllTransactions($customer_id){
-        $sql = "SELECT *  FROM ".DB_PREFIX."customer_transaction ct LEFT JOIN ".DB_PREFIX."transaction_order to ON(ct.transaction_order_id = to.transaction_order_id) WHERE ct.customer_id = '".(int) $customer_id."' ORDER BY ct.date_added DESC";
+        $sql = "SELECT *  FROM ".DB_PREFIX."customer_transaction ct LEFT JOIN ".DB_PREFIX."transaction_order `to` ON(ct.transaction_order_id = `to`.transaction_order_id) WHERE ct.customer_id = '".(int) $customer_id."' ORDER BY ct.date_added DESC";
         
         $transactions = $this->db->query($sql);
         
