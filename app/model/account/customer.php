@@ -87,10 +87,25 @@ class ModelAccountCustomer extends Model{
     }
     
     public function getBalance($cutomer_id){
+        $total = 0;
         
-        $balance = $this->db->query("SELECT SUM(amount) AS balance FROM ".DB_PREFIX."customer_transaction WHERE customer_id = '".(int) $cutomer_id."'");
+        $balance = array(
+            'balance'=>0
+        );
         
-        return $balance->row;
+        $totalbalance = $this->db->query("SELECT * FROM ".DB_PREFIX."customer_transaction ct LEFT JOIN ".DB_PREFIX."transaction_order `to` ON(ct.transaction_order_id = `to`.transaction_order_id)  WHERE ct.customer_id = '".(int) $cutomer_id."' AND `to`.status = '".(int) $this->config->get('config_complete_status_id')."'");
+        
+        foreach ($totalbalance->rows as $tbalance){
+            $convert = $tbalance['amount'] * $tbalance['conversion_value'];
+        
+            $total = $total + $convert;
+        }
+        
+        $balance = array(
+            'balance'=>$total
+        );
+        
+        return $balance;
     }
     
     public function getCardCommission($card_id){

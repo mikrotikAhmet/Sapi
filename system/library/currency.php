@@ -194,4 +194,10 @@ class Currency {
     public function has($currency) {
         return isset($this->currencies[$currency]);
     }
+    
+    public function getValueById($currency_id){
+        $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "currency WHERE currency_id = '".(int) $currency_id."'");
+        
+        return $query->row['value'];
+    }
 } 
