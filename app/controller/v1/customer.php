@@ -49,8 +49,8 @@ class ControllerV1Customer extends Controller {
 
         if (($this->request->server['REQUEST_METHOD'] == 'GET')) {
 
-            $transactions = $this->model_account_customer->getAllTransactions($params['customer_id']);
-
+            $transactions = $this->model_account_customer->getAllTransactions($params);
+            
             $params['data'] = $transactions;
 
             $this->_api->processApi($params, 200);

@@ -62,8 +62,30 @@ class ModelAccountCustomer extends Model{
         return $result->row;
     }
     
-    public function getAllTransactions($customer_id){
-        $sql = "SELECT *  FROM ".DB_PREFIX."customer_transaction ct LEFT JOIN ".DB_PREFIX."transaction_order to ON(ct.transaction_order_id = to.transaction_order_id) WHERE ct.customer_id = '".(int) $customer_id."' ORDER BY ct.date_added DESC";
+    public function getAllTransactions($data = array()){
+        $sql = "SELECT *  FROM ".DB_PREFIX."customer_transaction ct LEFT JOIN ".DB_PREFIX."transaction_order `to` ON(ct.transaction_order_id = `to`.transaction_order_id) WHERE ct.customer_id = '".(int) $data['customer_id']."'";
+        
+        if (!empty($data['filter_date_start'])) {
+                    $sql .= " AND DATE(ct.date_added) >= '" . $this->db->escape($data['filter_date_start']) . "'";
+            }
+
+            if (!empty($data['filter_date_end'])) {
+                    $sql .= " AND DATE(ct.date_added) <= '" . $this->db->escape($data['filter_date_end']) . "'";
+            }
+            
+            $sql .= " ORDER BY ct.date_added DESC";
+            
+            if (isset($data['start']) || isset($data['limit'])) {
+                    if ($data['start'] < 0) {
+                            $data['start'] = 0;
+                    }			
+
+                    if ($data['limit'] < 1) {
+                            $data['limit'] = 20;
+                    }	
+
+                    $sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
+            }
         
         $transactions = $this->db->query($sql);
         
