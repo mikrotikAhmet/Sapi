@@ -39,6 +39,8 @@ class ControllerV1Customer extends Controller {
             $params['data'] = $transactions;
 
             $this->_api->processApi($params, 200);
+        } else {
+            $this->_api->processApi($params, 405);
         }
     }
 
@@ -47,7 +49,7 @@ class ControllerV1Customer extends Controller {
 
         $params = $this->request->get;
 
-        if (($this->request->server['REQUEST_METHOD'] == 'GET')) {
+        if (($this->request->server['REQUEST_METHOD'] == 'POST')) {
 
             $transactions = $this->model_account_customer->getAllTransactions($params);
             

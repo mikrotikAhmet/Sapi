@@ -62,6 +62,7 @@ class ModelAccountCustomer extends Model{
         return $result->row;
     }
     
+<<<<<<< HEAD
     public function getAllTransactions($data = array()){
         $sql = "SELECT *  FROM ".DB_PREFIX."customer_transaction ct LEFT JOIN ".DB_PREFIX."transaction_order `to` ON(ct.transaction_order_id = `to`.transaction_order_id) WHERE ct.customer_id = '".(int) $data['customer_id']."'";
         
@@ -86,6 +87,10 @@ class ModelAccountCustomer extends Model{
 
                     $sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
             }
+=======
+    public function getAllTransactions($customer_id){
+        $sql = "SELECT *  FROM ".DB_PREFIX."customer_transaction ct LEFT JOIN ".DB_PREFIX."transaction_order `to` ON(ct.transaction_order_id = `to`.transaction_order_id) WHERE ct.customer_id = '".(int) $customer_id."' ORDER BY ct.date_added DESC";
+>>>>>>> e96452cd2831838f494ce4bce6dddb02e659fbf5
         
         $transactions = $this->db->query($sql);
         
