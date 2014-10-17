@@ -35,6 +35,11 @@ class ModelAccountPayment extends Model{
         
         $this->db->query("INSERT INTO ".DB_PREFIX."customer_transaction SET customer_id = '".(int) $data['customer_id']."',transaction_order_id = '".(int) $transaction_order_id."', amount = '".(float) $data['amount']."', date_added = NOW()");
     }
+
+	public function makeRefund($data){
+
+		$this->db->query("UPDATE ".DB_PREFIX."transaction_order SET status = '".(int) $data['transaction_status']."' WHERE transaction_order_id = '".(int) $data['transaction']."'");
+	}
     
 }
 

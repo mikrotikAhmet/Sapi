@@ -62,40 +62,37 @@ class ModelAccountCustomer extends Model{
         return $result->row;
     }
     
-<<<<<<< HEAD
-    public function getAllTransactions($data = array()){
-        $sql = "SELECT *  FROM ".DB_PREFIX."customer_transaction ct LEFT JOIN ".DB_PREFIX."transaction_order `to` ON(ct.transaction_order_id = `to`.transaction_order_id) WHERE ct.customer_id = '".(int) $data['customer_id']."'";
-        
-        if (!empty($data['filter_date_start'])) {
-                    $sql .= " AND DATE(ct.date_added) >= '" . $this->db->escape($data['filter_date_start']) . "'";
-            }
+    public function getAllTransactions($data = array())
+	{
+		$sql = "SELECT *  FROM " . DB_PREFIX . "customer_transaction ct LEFT JOIN " . DB_PREFIX . "transaction_order `to` ON(ct.transaction_order_id = `to`.transaction_order_id) WHERE ct.customer_id = '" . (int)$data['customer_id'] . "'";
 
-            if (!empty($data['filter_date_end'])) {
-                    $sql .= " AND DATE(ct.date_added) <= '" . $this->db->escape($data['filter_date_end']) . "'";
-            }
-            
-            $sql .= " ORDER BY ct.date_added DESC";
-            
-            if (isset($data['start']) || isset($data['limit'])) {
-                    if ($data['start'] < 0) {
-                            $data['start'] = 0;
-                    }			
+		if (!empty($data['filter_date_start'])) {
+			$sql .= " AND DATE(ct.date_added) >= '" . $this->db->escape($data['filter_date_start']) . "'";
+		}
 
-                    if ($data['limit'] < 1) {
-                            $data['limit'] = 20;
-                    }	
+		if (!empty($data['filter_date_end'])) {
+			$sql .= " AND DATE(ct.date_added) <= '" . $this->db->escape($data['filter_date_end']) . "'";
+		}
 
-                    $sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
-            }
-=======
-    public function getAllTransactions($customer_id){
-        $sql = "SELECT *  FROM ".DB_PREFIX."customer_transaction ct LEFT JOIN ".DB_PREFIX."transaction_order `to` ON(ct.transaction_order_id = `to`.transaction_order_id) WHERE ct.customer_id = '".(int) $customer_id."' ORDER BY ct.date_added DESC";
->>>>>>> e96452cd2831838f494ce4bce6dddb02e659fbf5
-        
-        $transactions = $this->db->query($sql);
-        
-        return $transactions->rows;
-    }
+		$sql .= " ORDER BY ct.date_added DESC";
+
+		if (isset($data['start']) || isset($data['limit'])) {
+			if ($data['start'] < 0) {
+				$data['start'] = 0;
+			}
+
+			if ($data['limit'] < 1) {
+				$data['limit'] = 20;
+			}
+
+			$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
+		}
+
+		$transactions = $this->db->query($sql);
+
+		return $transactions->rows;
+	}
+
     
     public function getCards($customer_id){
         $sql = "SELECT * FROM " . DB_PREFIX . "customer_card cd LEFT JOIN ".DB_PREFIX."card c ON(cd.`type` = c.shortname) WHERE cd.customer_id = '" . (int) $customer_id . "' AND verified = '1'";

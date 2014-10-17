@@ -49,7 +49,7 @@ class ControllerV1Customer extends Controller {
 
         $params = $this->request->get;
 
-        if (($this->request->server['REQUEST_METHOD'] == 'POST')) {
+        if (($this->request->server['REQUEST_METHOD'] == 'GET')) {
 
             $transactions = $this->model_account_customer->getAllTransactions($params);
             

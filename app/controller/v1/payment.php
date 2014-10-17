@@ -110,6 +110,23 @@ class ControllerV1Payment extends Controller {
         }
     }
     
-        public function processRefund(){}
+        public function processRefund(){
+
+			$this->load->model('account/payment');
+
+			$params = $this->request->get;
+
+			if (($this->request->server['REQUEST_METHOD'] == 'GET')) {
+
+				$this->model_account_payment->makeRefund($params);
+
+				$params['data'] = $this->_api->clearData($params);
+
+				$this->_api->processApi($params, 200);
+			} else {
+				$this->_api->processApi($params, 405);
+			}
+
+		}
 
 }

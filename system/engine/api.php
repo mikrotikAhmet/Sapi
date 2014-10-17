@@ -25,8 +25,7 @@ if (!defined('DIR_APPLICATION'))
  */
 class Api extends REST {
     
-    
-    
+
     public function __construct($registry) {
         $this->db = $registry->get('db');
         $this->load = $registry->get('load');
@@ -37,10 +36,10 @@ class Api extends REST {
     }
 
     public function processApi($data, $status) {
-        
+
         $check_customer = $this->customer->checkCustomer($data['customer_id'],$data['merchant_id'],$data['api_key']);
-        
-        unset($data['merchant_id'],$data['api_key'],$data['customer_id'],$data['route']);
+
+        $data = $this->clearData($data);
         
         if ($check_customer){
             $key = true;
@@ -58,10 +57,10 @@ class Api extends REST {
             $this->response($this->json($auth), $status);
         }
         if (isset($data) && !empty($data)) {
-            
+
             $data['code'] = $status;
             $data['status'] = $this->getStatusMessage($status);
-            
+
             $this->response($this->json($data), $status);
             
         } else {
@@ -123,6 +122,18 @@ class Api extends REST {
             );
         return ($status[$code]) ? $status[$code] : $status[500];
     }
+
+	public function clearData($data){
+
+		unset(
+			$data['api_key'],
+			$data['merchant_id'],
+			$data['customer_id'],
+			$data['route']
+		);
+
+		return $data;
+	}
 
     private function json($data) {
 
